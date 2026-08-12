@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  monkdb-target:
+    build: ./monkdb-target
+    networks:
+      - aegis_secure_net
+
+  aegis-sidecar:
+    image: ghcr.io/yash-0620/aegis-mcp-sidecar:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - TARGET_MCP_URL=http://monkdb-target:8000
+      - AEGIS_CONTROL_PLANE_URL=${AEGIS_CONTROL_PLANE_URL}
+      - AEGIS_API_KEY=${AEGIS_API_KEY}
+      - AEGIS_PUBLIC_KEY=${AEGIS_PUBLIC_KEY}
+    depends_on:
+      - monkdb-target
+    networks:
+      - aegis_secure_net
+
+networks:
+  aegis_secure_net:
+    driver: bridge

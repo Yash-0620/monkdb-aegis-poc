@@ -1,0 +1,9 @@
+{
+  "name": "monkdb-poc-target",
+  "type": "module",
+  "dependencies": {
+    "@monkdb/monkdb-mcp": "latest",
+    "@modelcontextprotocol/sdk": "latest",
+    "express": "^4.18.2"
+  }
+}
