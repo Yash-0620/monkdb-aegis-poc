@@ -6,7 +6,7 @@ app.use(express.json());
 
 console.log("Booting MonkDB SDK Sub-Process...");
 
-// 1. Spawn their official SDK as a background process
+// 1. Spawn the official SDK as a background process
 const mcpProcess = spawn('node', [
     '-e',
     "import('@monkdb/monkdb-mcp').then(m => m.startMonkDBMCPServer())"
@@ -26,7 +26,7 @@ app.get('/sse', (req, res) => {
     console.log("SSE Connection Established.");
 });
 
-// 3. Pipe their Stdio Output -> SSE Network Stream
+// 3. Pipe the Stdio Output -> SSE Network Stream
 mcpProcess.stdout.on('data', (data) => {
     if (sseResponse) {
         // MCP Stdio outputs newline-delimited JSON
@@ -41,7 +41,7 @@ mcpProcess.stderr.on('data', (data) => {
     console.error(`[MonkDB SDK Log]: ${data}`);
 });
 
-// 4. Pipe Network POST -> Their Stdio Input
+// 4. Pipe Network POST -> The Stdio Input
 app.post('/messages', (req, res) => {
     const payload = JSON.stringify(req.body) + '\n';
     mcpProcess.stdin.write(payload);
